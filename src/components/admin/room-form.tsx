@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { createClient } from '@/lib/supabase/client'
+import { useToast } from '@/hooks/use-toast'
 
 interface RoomFormProps {
   room?: Room | null
@@ -21,6 +22,7 @@ export function RoomForm({ room, onClose, onSaved }: RoomFormProps) {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const supabase = createClient()
+  const { toast } = useToast()
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -51,9 +53,19 @@ export function RoomForm({ room, onClose, onSaved }: RoomFormProps) {
         if (error) throw error
       }
 
+      toast({
+        title: room ? "Room updated" : "Room created",
+        description: `${name} has been successfully ${room ? 'updated' : 'created'}.`,
+      })
       onSaved()
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to save room')
+      const errorMessage = err instanceof Error ? err.message : 'Failed to save room'
+      setError(errorMessage)
+      toast({
+        title: "Error",
+        description: errorMessage,
+        variant: "destructive",
+      })
     } finally {
       setLoading(false)
     }

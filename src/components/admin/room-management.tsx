@@ -11,9 +11,11 @@ import { createClient } from '@/lib/supabase/client'
 import { Plus, Edit, Trash2, Users, MapPin } from 'lucide-react'
 import { globalState } from '@/lib/global-state'
 import { ConfirmDialog } from '@/components/ui/confirm-dialog'
+import { useToast } from '@/hooks/use-toast'
 
 export function RoomManagement() {
   const { isAdmin, loading } = useAdmin()
+  const { toast } = useToast()
   const [rooms, setRooms] = useState<Room[]>([])
   const [showForm, setShowForm] = useState(false)
   const [editingRoom, setEditingRoom] = useState<Room | null>(null)
@@ -65,10 +67,18 @@ export function RoomManagement() {
 
     if (error) {
       console.error('Error deleting room:', error)
-      alert('Failed to delete room: ' + error.message)
+      toast({
+        title: "Error",
+        description: `Failed to delete room: ${error.message}`,
+        variant: "destructive",
+      })
     } else {
       fetchRooms()
       globalState.refresh() // Trigger global refresh
+      toast({
+        title: "Room deleted",
+        description: `${confirmDialog.roomName} has been successfully deleted.`,
+      })
     }
     setDeletingRoom(null)
   }
