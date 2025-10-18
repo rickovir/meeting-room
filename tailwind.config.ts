@@ -52,6 +52,25 @@ const config = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        /* Status colors */
+        success: {
+          DEFAULT: "hsl(var(--success))",
+          foreground: "hsl(var(--success-foreground, 0 0% 100%))",
+        },
+        warning: {
+          DEFAULT: "hsl(var(--warning))",
+          foreground: "hsl(var(--warning-foreground, 0 0% 100%))",
+        },
+        info: {
+          DEFAULT: "hsl(var(--info))",
+          foreground: "hsl(var(--info-foreground, 0 0% 100%))",
+        },
+        /* Brand specific colors */
+        "brand-primary": "#E91E63",
+        "brand-secondary": "#283593",
+        "brand-accent": "#D500F9",
+        "deep-charcoal": "#0A0A0F",
+        "space-blue": "#3949AB",
       },
       borderRadius: {
         lg: "var(--radius)",
